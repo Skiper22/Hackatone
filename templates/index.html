@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flask App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    {{ script|safe }}
+</head>
+<body>
+    <h1>Выберите направление и класс:</h1>
+    <form method="POST">
+        <select name="direction">
+             <option value="SVO-AER">SVO-AER</option>
+             <option value="AER-SVO">AER-SVO</option>
+             <option value="SVO-ASF">SVO-ASF</option>
+             <option value="ASF-SVO">ASF-SVO</option>
+        </select>
+<!--        <select name="direction">-->
+<!--            {% for key, value in directions.items() %}-->
+<!--                <option value="{{ key }}" {% if selected_direction == key %}selected{% endif %}>{{ key }}</option>-->
+<!--            {% endfor %}-->
+<!--        </select>-->
+        <select name="flight_class">
+            {% for class_name in directions[selected_direction] %}
+                <option value="{{ class_name }}" {% if selected_class == class_name %}selected{% endif %}>{{ class_name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Построить график</button>
+    </form>
+    {% if warning_message %}
+        <p class="warning">{{ warning_message }}</p>
+    {% endif %}
+    <div class="bokeh-plot">
+        {{ div|safe }}
+    </div>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>График</title>
+    <link href="https://cdn.bokeh.org/bokeh/release/bokeh-2.3.3.min.css" rel="stylesheet" type="text/css">
+    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-2.3.3.min.js"></script>
+</head>
+<body>
+    <h1>График</h1>
+
+    <form method="POST" action="">
+        <!-- Ваш код для выбора направления и класса полета -->
+        <input type="submit" value="Построить график">
+    </form>
+
+    <div>
+
+        <!-- Место для отображения графика -->
+        {{ div | safe }}
+    </div>
+
+    <!-- Скрипт для отображения графика -->
+    {{ script | safe }}
+</body>
+</html>
